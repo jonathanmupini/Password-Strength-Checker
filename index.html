@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Test your password strength with Chirindamatura's Password Tester. Get personalized suggestions to enhance your online security.">
+    <title>Chirindamatura Password Tester</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src=script.js></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/22.4.9/i18next.min.js"></script>
+</head>
+<body>
+    <!-- Fullscreen Toggle Button -->
+     <!--<div class="fullscreen-toggle" onclick="toggleFullScreen()">
+        <i class="fas fa-expand"></i> Full Screen
+    </div> -->
+    
+    <div class="container">
+        <!-- Language Selector -->
+        <div class="language-selector">
+            <label for="language-select" class="visually-hidden">Select Language</label>
+            <select id="language-select" onchange="changeLanguage()">
+                <option value="en-US">English</option>
+                <option value="sn-ZW">Shona</option>
+            </select>
+        </div>
+        
+        <!-- Security Stats Section -->
+        <!-- <div class="security-stats">
+            <div class="stat-item">
+                <div class="stat-number" id="hacked-counter">0</div>
+                <div class="stat-label">People Hacked Today</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="passwords-counter">0</div>
+                <div class="stat-label">Passwords Compromised</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="info-counter">0</div>
+                <div class="stat-label">Data Breaches</div>
+            </div>
+        </div> -->
+        
+        <!-- Main Title and Introduction -->
+        <h1 id="main-title">Chirindamatura Password Tester</h1>
+        <p id="intro-text">Enter your password to check its strength and get tips on improving it.</p>
+       
+        <!-- Password Input Section -->
+        <div class="password-input">
+            <label for="password" class="visually-hidden">Password</label>
+            <input type="password" id="password" placeholder="Enter your password" aria-label="Password input" autocomplete="new-password">
+            <button id="toggle-visibility" aria-label="Toggle password visibility">Show</button>
+        </div>
+       
+        <button id="check-button" onclick="checkPassword()">Check Strength</button>
+       
+        <!-- Results Display -->
+        <div id="strength" aria-live="polite"></div>
+        <div id="suggestions" aria-live="polite"></div>
+        <div id="score" class="score" aria-live="polite"></div>
+       
+        <!-- Educational Section -->
+        <section class="info-section">
+            <div class="section-header">
+                <h2 id="info-title">Why Does Password Strength Matter?</h2>
+                <button id="toggle-info" aria-expanded="true" aria-controls="info-content"><span>−</span> Hide Information</button>
+            </div>
+            <div id="info-content">
+                <p>Re-using the same password across many platforms—like Gmail, Ecocash, WhatsApp, Facebook, or your bank's app—may seem easier, but it puts you at serious risk. If someone gets hold of one password, they could potentially access everything, from your money to your personal messages.</p>
+               
+                <p>To protect yourself, always use a strong, unique password for every account. This makes it harder for cybercriminals to hack you. Use the Password Strength Test Chart to check how secure your passwords are.</p>
+               
+                <h3>What Is a Password Strength Tester?</h3>
+                <p>A password strength tester is a tool that checks how difficult it would be for someone—or a computer program—to guess your password. It looks at things like password length, how random it is, and if it includes numbers, symbols, or capital letters.</p>
+               
+                <p>It's a quick and easy way to check if your password can stand up to hackers—especially for key accounts like your mobile banking, email, or company systems.</p>
+               
+                <h3>How Does It Work?</h3>
+                <p>These testers calculate how long it would take a hacker using automated tools to guess your password by trying every combination of characters. The stronger the password, the longer it takes to crack—sometimes even hundreds of years.</p>
+            </div>
+        </section>
+        
+        <!-- Products Section -->
+        <section class="products-section">
+            <div class="section-header">
+                <h2 id="products-title">Chirindamatura Security Solutions</h2>
+                <button id="toggle-products" aria-expanded="true" aria-controls="products-content"><span>−</span> Hide Products</button>
+            </div>
+            <div id="products-content">
+                <p>At Chirindamatura, we create cutting-edge security solutions based on your specific needs:</p>
+                
+                <div class="products-grid">
+                    <div class="product-card">
+                        <h3>Two-Factor Authentication (2FA)</h3>
+                        <p>Add an extra layer of security to your accounts with our customizable 2FA solutions that go beyond just passwords.</p>
+                    </div>
+                    <div class="product-card">
+                        <h3>Password Managers</h3>
+                        <p>Never forget a password again. Our secure password managers help you create, store, and auto-fill strong passwords across all your devices.</p>
+                    </div>
+                    <div class="product-card">
+                        <h3>Security Audits</h3>
+                        <p>Comprehensive security assessments to identify vulnerabilities in your systems before hackers can exploit them.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+       
+        <!-- Blog Section -->
+        <section class="blog-section">
+            <div class="section-header">
+                <h2 id="blog-title">Latest Cybersecurity News from Zimbabwe</h2>
+                <button id="toggle-blog" aria-expanded="true" aria-controls="blog-content"><span>−</span> Hide Blog Posts</button>
+            </div>
+            <div id="blog-content">
+                <ul id="blog-posts"></ul>
+                <button id="load-more">Load More Articles</button>
+            </div>
+        </section>
+        
+        <!-- Contact Section -->
+        <section class="contact-section">
+            <div class="section-header">
+                <h2 id="contact-title">Contact Us</h2>
+                <button id="toggle-contact" aria-expanded="true" aria-controls="contact-content"><span>−</span> Hide Contact Form</button>
+            </div>
+            <div id="contact-content">
+                <p>Have questions about our security solutions? Get in touch with our team of experts.</p>
+                
+                <form class="contact-form" id="email-form" onsubmit="sendEmail(event)">
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Chirindamatura. All rights reserved.</p>
+        <p>Copyright &copy; Jonathan Mupini, CirruByte.</p>
+        <div class="powered-by">
+            <p>Translation powered by <a href="https://simplelocalize.io/data/locale-code/sn-ZW/" target="_blank" rel="noopener noreferrer">SimpleLocalize</a></p>
+        </div>
+    </footer>
+    
+    <!-- WhatsApp Widget -->
+    <div class="whatsapp-widget" onclick="openWhatsApp()">
+        <i class="fab fa-whatsapp"></i>
+    </div>
+    
+    <script>
+        // Check for saved language preference on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLanguage = localStorage.getItem('preferredLanguage');
+            if (savedLanguage) {
+                document.getElementById('language-select').value = savedLanguage;
+                changeLanguage();
+            }
+        });
+        
+        // Basic function definitions for JavaScript functions
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+        
+        function changeLanguage() {
+            const language = document.getElementById('language-select').value;
+            console.log(`Language changed to ${language}`);
+            
+            // Define translations
+            const translations = {
+                'en-US': {
+                    'main-title': 'Chirindamatura Password Tester',
+                    'intro-text': 'Enter your password to check its strength and get tips on improving it.',
+                    'check-button': 'Check Strength',
+                    'info-title': 'Why Does Password Strength Matter?',
+                    'products-title': 'Chirindamatura Security Solutions',
+                    'blog-title': 'Latest Cybersecurity News from Zimbabwe',
+                    'contact-title': 'Contact Us',
+                    'toggle-visibility': 'Show',
+                    'subject-label': 'Subject',
+                    'message-label': 'Message',
+                    'submit-btn': 'Send Message'
+                },
+                'sn-ZW': {
+                    'main-title': 'Chirindamatura Muongorori WePassword',
+                    'intro-text': 'Isa password yako kuti uongorore simba rayo uye uwane mazano ekuisimbisa.',
+                    'check-button': 'Ongorora Simba',
+                    'info-title': 'Nei Simba RePassword Rakakosha?',
+                    'products-title': 'Zvishandiso ZveChirindamatura',
+                    'blog-title': 'Nhau Dzekuchengetedzeka KweComputer MuZimbabwe',
+                    'contact-title': 'Taurai Nesu',
+                    'toggle-visibility': 'Ratidza',
+                    'subject-label': 'Musoro',
+                    'message-label': 'Shoko',
+                    'submit-btn': 'Tumira Shoko'
+                }
+            };
+            
+            // Apply translations
+            if (translations[language]) {
+                document.getElementById('main-title').textContent = translations[language]['main-title'];
+                document.getElementById('intro-text').textContent = translations[language]['intro-text'];
+                document.getElementById('check-button').textContent = translations[language]['check-button'];
+                document.getElementById('info-title').textContent = translations[language]['info-title'];
+                document.getElementById('products-title').textContent = translations[language]['products-title'];
+                document.getElementById('blog-title').textContent = translations[language]['blog-title'];
+                document.getElementById('contact-title').textContent = translations[language]['contact-title'];
+                document.getElementById('toggle-visibility').textContent = translations[language]['toggle-visibility'];
+                
+                // Update form labels
+                document.querySelector('label[for="subject"]').textContent = translations[language]['subject-label'];
+                document.querySelector('label[for="message"]').textContent = translations[language]['message-label'];
+                document.querySelector('.submit-btn').textContent = translations[language]['submit-btn'];
+                
+                // Update toggle buttons text
+                updateToggleButtonsText(language);
+            }
+            
+            // Store language preference
+            localStorage.setItem('preferredLanguage', language);
+        }
+        
+        function updateToggleButtonsText(language) {
+            const isEnglish = language === 'en-US';
+            const sections = {
+                'info': isEnglish ? 'Information' : 'Ruzivo',
+                'products': isEnglish ? 'Products' : 'Zvigadzirwa',
+                'blog': isEnglish ? 'Blog Posts' : 'Nhau',
+                'contact': isEnglish ? 'Contact Form' : 'Fomu Yekutaura'
+            };
+            
+            const hideText = isEnglish ? 'Hide' : 'Viga';
+            const showText = isEnglish ? 'Show' : 'Ratidza';
+            
+            Object.keys(sections).forEach(section => {
+                const button = document.getElementById(`toggle-${section}`);
+                const contentId = `${section}-content`;
+                const content = document.getElementById(contentId);
+                const isVisible = content.style.display !== 'none';
+                const action = isVisible ? hideText : showText;
+                button.innerHTML = `<span>${isVisible ? '−' : '+'}</span> ${action} ${sections[section]}`;
+            });
+        }
+        
+        function checkPassword() {
+            // Password checking functionality would be implemented here
+            const password = document.getElementById('password').value;
+            // Implementation details would go here
+        }
+        
+        function sendEmail(event) {
+            event.preventDefault();
+            // Email sending functionality would be implemented here
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            console.log(`Email sent with subject: ${subject}`);
+        }
+        
+        function openWhatsApp() {
+            // WhatsApp functionality would be implemented here
+            window.open('https://wa.me/263784140636', '_blank');
+        }
+        
+        // Initialize toggle buttons
+        document.getElementById('toggle-visibility').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.textContent = type === 'password' ? 'Show' : 'Hide';
+        });
+        
+        // Section toggle functionality
+        const toggleButtons = ['toggle-info', 'toggle-products', 'toggle-blog', 'toggle-contact'];
+        toggleButtons.forEach(id => {
+            document.getElementById(id).addEventListener('click', function() {
+                const contentId = id.replace('toggle-', '') + '-content';
+                const content = document.getElementById(contentId);
+                const isVisible = content.style.display !== 'none';
+                content.style.display = isVisible ? 'none' : 'block';
+                this.innerHTML = `<span>${isVisible ? '+' : '−'}</span> ${isVisible ? 'Show' : 'Hide'} ${id.replace('toggle-', '').charAt(0).toUpperCase() + id.replace('toggle-', '').slice(1)}`;
+                this.setAttribute('aria-expanded', !isVisible);
+            });
+        });
+    </script>
+</body>
+</html>
